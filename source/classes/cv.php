@@ -70,6 +70,13 @@ class CV{
         $statement->execute();
     }
 
+    public function updateAddress($address) {
+        var_dump($address);
+        $statement = $this->db->prepare("UPDATE addresses SET street = ?, zip = ?, city = ?, country = ? WHERE id = ?");
+        $statement->bind_param("ssssi",$address->street, $address->zip, $address->city, $address->country, $address->id);
+        $statement->execute();
+    }
+
     private function getAddress() {
         $statement = $this->db->prepare("SELECT * FROM `addresses`");
         $statement->execute();

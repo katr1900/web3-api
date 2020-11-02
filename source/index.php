@@ -36,12 +36,8 @@ function post(){
     http_response_code(200);
     $data = json_decode(file_get_contents('php://input'), true); // Hämta anropets data och konvertera från JSON
     $cv = new CV();
-    if (isset($data['personalInfo'])) {
-        $personalInfo = $data['personalInfo'];
-        $personalInfo=new PersonalInfo($personalInfo['id'], $personalInfo['firstname'], $personalInfo['lastname'], 
-        $personalInfo['phone'], $personalInfo['email'], $personalInfo['linkedin'], $personalInfo['drivinglicense'], $personalInfo['about']);
-        $cv->updatePersonalInfo($personalInfo);
-    } else if (isset($data['language'])) {
+    // Kontrollera vad som ska läggas till
+    if (isset($data['language'])) {
         $language = $data['language'];
         $language = new Language(0, $language['name'], $language['level']);
         $cv->addLanguage($language);
@@ -74,5 +70,18 @@ function delete(){
 function put(){
     http_response_code(200);
     $data = json_decode(file_get_contents('php://input'), true);  // Hämta anropets data och konvertera från JSON
+    $cv = new CV();
+    
+    // Kontrollera vad som ska uppdateras
+    if (isset($data['personalInfo'])) {
+        $personalInfo = $data['personalInfo'];
+        $personalInfo=new PersonalInfo($personalInfo['id'], $personalInfo['firstname'], $personalInfo['lastname'], 
+        $personalInfo['phone'], $personalInfo['email'], $personalInfo['linkedin'], $personalInfo['drivinglicense'], $personalInfo['about']);
+        $cv->updatePersonalInfo($personalInfo);
+    } else if (isset($data['address'])) {
+        $address = $data['address'];
+        $address = new Address($address["id"], $address['street'], $address['zip'], $address['city'], $address['country']);
+        $cv->updateAddress($address);
+    }
 }
 ?>
