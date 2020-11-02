@@ -41,9 +41,10 @@ class CV{
         return $this;
     }
 
-    public function delete($id){
-    }
-    public function update(){
+    public function deleteSkill($id){
+        $statement = $this->db->prepare("DELETE FROM skills WHERE id = ?");
+        $statement->bind_param("i",$id);
+        $statement->execute();
     }
 
     private function getPersonalInfo() {

@@ -66,12 +66,20 @@ function post(){
 function delete(){
     http_response_code(200);
     $data = json_decode(file_get_contents('php://input'), true);  // Hämta anropets data och konvertera från JSON
+    $cv = new CV();
+
+    // Kontrollera vad som ska tas bort
+    if (isset($data['skill'])) {
+        $skill = $data['skill'];
+        $id = $skill['id'];
+        $cv->deleteSkill($id);
+    }
 }
 function put(){
     http_response_code(200);
     $data = json_decode(file_get_contents('php://input'), true);  // Hämta anropets data och konvertera från JSON
     $cv = new CV();
-    
+
     // Kontrollera vad som ska uppdateras
     if (isset($data['personalInfo'])) {
         $personalInfo = $data['personalInfo'];
