@@ -5,6 +5,7 @@ include('interest.php');
 include('language.php');
 include('personalInfo.php');
 include('skill.php');
+include('website.php');
 include('workExperience.php');
 include('workReference.php');
 
@@ -17,6 +18,7 @@ class CV{
     public $languages;
     public $personalInfo;
     public $skills;
+    public $websites;
     public $workExperiences;
     public $workReferences;
     
@@ -34,6 +36,7 @@ class CV{
         $this->educations = $this->getEducations();
         $this->languages = $this->getLanguages();
         $this->skills = $this->getSkills();
+        $this->websites = $this->getWebsites();
         $this->workExperiences = $this->getWorkExperiences();
         $this->workReferences = $this->getWorkReferences();
         $this->interests = $this->getInterests();
@@ -119,6 +122,12 @@ class CV{
         $statement->execute();
     }
 
+    public function addWebsite($website) {
+        $statement = $this->db->prepare("INSERT INTO websites (title, url, description) Values (?, ?, ?)");
+        $statement->bind_param("sss",$website->title, $website->url, $website->description);
+        $statement->execute();
+    }
+
     public function addWorkExperience($workExperience) {
         $statement = $this->db->prepare("INSERT INTO workexperiences (role, employeer, startdate, enddate) Values (?, ?, ?, ?, ?)");
         $statement->bind_param("ssss",$workExperience->role, $workExperience->employeer, $workExperience->startDate, $workExperience->endDate);
@@ -189,6 +198,26 @@ class CV{
         }
 
         return $skills;
+    }
+
+    private function getWebsites() {
+        $statement = $this->db->prepare("SELECT * FROM websites");
+        $statement->execute();
+        
+        $result = $statement->get_result();
+
+        if(!$result){
+            die('There was an error running the query [' . $this->db->error. ']');
+        }
+        $websites = [];
+
+        // Loopa igenom alla rader
+        while($row = $result->fetch_assoc()){
+            $website=new WebSite($row['id'], $row['title'], $row['url'], $row['description']);
+            array_push($websites,$website);
+        }
+
+        return $websites;
     }
 
     private function getWorkExperiences() {

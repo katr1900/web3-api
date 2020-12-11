@@ -61,6 +61,10 @@ function post(){
         $reference = $data['reference'];
         $reference = new WorkReference(0, $reference['name'], $reference['phone']);
         $cv->addWorkReference($reference);
+    } else if (isset($data['website'])) {
+        $website = $data['website'];
+        $website = new Website(0, $website['title'], $website['url'], $website['description']);
+        $cv->addWebsite($website);
     }
 }
 function delete(){
