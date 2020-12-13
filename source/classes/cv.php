@@ -117,7 +117,7 @@ class CV{
     }
 
     public function addEducation($education) {
-        $statement = $this->db->prepare("INSERT INTO educations (course, school, startdate, enddate) Values (?, ?, ?, ?, ?)");
+        $statement = $this->db->prepare("INSERT INTO educations (course, school, startdate, enddate) Values (?, ?, ?, ?)");
         $statement->bind_param("ssss",$education->course, $education->school, $education->startDate, $education->endDate);
         $statement->execute();
     }
@@ -129,7 +129,7 @@ class CV{
     }
 
     public function addWorkExperience($workExperience) {
-        $statement = $this->db->prepare("INSERT INTO workexperiences (role, employeer, startdate, enddate) Values (?, ?, ?, ?, ?)");
+        $statement = $this->db->prepare("INSERT INTO workexperiences (role, employeer, startdate, enddate) Values (?, ?, ?, ?)");
         $statement->bind_param("ssss",$workExperience->role, $workExperience->employeer, $workExperience->startDate, $workExperience->endDate);
         $statement->execute();
     }
